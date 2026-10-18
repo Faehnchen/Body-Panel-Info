@@ -21,7 +21,7 @@
 # About:
 
 This Macro adds some useful information about the physical properties of the
-contents in a PartDesign-Body-container to it's ’Data’-properties panel:
+contents in a PartDesign-Body-container to it's ’Data’-panel:
 
 - Assigned Material
 - Material Density
