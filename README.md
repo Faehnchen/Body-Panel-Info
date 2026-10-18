@@ -33,6 +33,8 @@ units on and off with a checkbox.
 
 Units stay consistent regardless how big the model grows (no unit shifting)
 
+<img width="1237" height="801" alt="image" src="https://github.com/user-attachments/assets/491275fb-cd5b-4210-9172-8aa9b45901a2" />
+
 # Usage:
 
 Put this script into the macro folder specific to your OS and installation method
