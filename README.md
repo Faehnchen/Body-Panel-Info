@@ -28,7 +28,7 @@ properties panel:
 - Volume in mm³
 - Mass in g and lb
 
-You can view all these values in one glance at the panel. Toggle the display of 
+You can view all these values in one glance in the panel. Toggle the display of 
 units on and off with a checkbox.
 
 Units stay consistent regardless how big the model grows (no unit shifting)
