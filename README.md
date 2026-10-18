@@ -20,8 +20,8 @@
 
 # About:
 
-This Macro adds some useful property information to your PartDesign-Body Data-
-properties panel:
+This Macro adds some useful information about the physical properties of the
+contents in a PartDesign-Body-container to it's ’Data’-properties panel:
 
 - Assigned Material
 - Material Density
