@@ -60,63 +60,72 @@ import PartDesign
 active_doc = App.activeDocument()
 # Get the name of the active body
 active_body = Gui.ActiveDocument.ActiveView.getActiveObject('pdbody')
-# Highlight the active body
-Gui.Selection.addSelection(active_doc.Name,active_body.Name)
 
-# Check if a volume exists and notify > abort if shape is null
-def vol_test():
-    if str(active_body.Shape.BoundBox.XLength) == "-inf":
-        print("Body has no volume")
-        FreeCAD.Console.PrintError('Macro: Body-Panel-Info: Your Body "' +
-        active_body.Label + '" has no volume!\n')
-        return 1
-    else:
-        return 0
-
-# Check if the macro was already applied to the selected body
-def done_test():
-    if hasattr(active_body, "_Density"):
-        print('Already done')
+# Check if a body is activated
+def active_test():
+    if str(active_body) == 'None':
+        print('No active body selected')
         FreeCAD.Console.PrintError('Macro Body-Panel-Info: ' +
-        'Already added properties to "' + active_body.Label + '".\n')
+        'Activate the Part Design Body you want to run the script on!\n')
         return 1
     else:
         return 0
 
 # Start: + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 # ¯¯¯¯¯¯
-vol_test()
-done_test()
+if active_test() == 0:
 
-if vol_test() == 0 and done_test() == 0:
-    print("Macro: Body-Panel-Info: Adding infos...")
+    # Check if a volume exists and notify > abort if shape is null
+    def vol_test():
+        if str(active_body.Shape.BoundBox.XLength) == "-inf":
+            print("Body has no volume.")
+            FreeCAD.Console.PrintError('Macro: Body-Panel-Info: Your Body "' +
+            active_body.Label + '" has no volume!\n')
+            return 1
+        else:
+            return 0
 
-    # Volume value for calculation (hidden)
-    active_body.addProperty('App::PropertyFloat', '_Volume', 'Base', '')
-    active_body.setExpression('_Volume', u'.Shape.Volume')
-    # Density value for calculation (hidden)
-    active_body.addProperty('App::PropertyFloat', '_Density', 'Base', '')
-    active_body.setExpression('_Density', u'.ShapeMaterial.PropertyObjects[<<Density>>].Value * 1000000')
-    # Checkbox for units display
-    active_body.addProperty('App::PropertyBool', 'Show_Units', 'Base', '')
-    FreeCAD.getDocument(active_doc.Name).getObject(active_body.Name).Show_Units = False
-    # Assigned Material
-    active_body.addProperty('App::PropertyString', 'Assigned_Material', 'Base', '')
-    active_body.setExpression('Assigned_Material', u'.ShapeMaterial.Name')
-    # Density display
-    active_body.addProperty('App::PropertyString', 'Density', 'Base', '')
-    active_body.setExpression('Density', u'str(_Density) + str(Show_Units ? << g/cm\xb3>> : <<>>)')
-    # Mass in grams
-    active_body.addProperty('App::PropertyString', 'Mass_in_Grams', 'Base', '')
-    active_body.setExpression('Mass_in_Grams', u'str(round(_Volume * _Density) / 1000) + str(Show_Units ? << g>> : <<>>)')
-    # Mas in pounds
-    active_body.addProperty('App::PropertyString', 'Mass_in_Pounds', 'Base', '')
-    active_body.setExpression('Mass_in_Pounds', u'str(round(_Volume * _Density * 0.0022046226) / 1000) + str(Show_Units ? << lb>> : <<>>)')
-    # Volume display
-    active_body.addProperty('App::PropertyString', 'Volume', 'Base', '')
-    active_body.setExpression('Volume', u'<<%d>> % round(.Shape.Volume) + str(Show_Units ? << mm\xb3>> : <<>>)')
+    # Check if the macro was already applied to the selected body
+    def done_test():
+        if hasattr(active_body, "_Density"):
+            print('Already done!')
+            FreeCAD.Console.PrintError('Macro Body-Panel-Info: ' +
+            'Already added properties to "' + active_body.Label + '".\n')
+            return 1
+        else:
+            return 0
 
-    print("Macro Body-Panel-Info: Finished.")
+    if vol_test() == 0 and done_test() == 0:
+        print("Macro: Body-Panel-Info: Adding infos...")
+        # Highlight the active body
+        Gui.Selection.addSelection(active_doc.Name,active_body.Name)
+
+        # Volume value for calculation (hidden)
+        active_body.addProperty('App::PropertyFloat', '_Volume', 'Base', '')
+        active_body.setExpression('_Volume', u'.Shape.Volume')
+        # Density value for calculation (hidden)
+        active_body.addProperty('App::PropertyFloat', '_Density', 'Base', '')
+        active_body.setExpression('_Density', u'.ShapeMaterial.PropertyObjects[<<Density>>].Value * 1000000')
+        # Checkbox for units display
+        active_body.addProperty('App::PropertyBool', 'Show_Units', 'Base', '')
+        FreeCAD.getDocument(active_doc.Name).getObject(active_body.Name).Show_Units = False
+        # Assigned Material
+        active_body.addProperty('App::PropertyString', 'Assigned_Material', 'Base', '')
+        active_body.setExpression('Assigned_Material', u'.ShapeMaterial.Name')
+        # Density display
+        active_body.addProperty('App::PropertyString', 'Density', 'Base', '')
+        active_body.setExpression('Density', u'str(_Density) + str(Show_Units ? << g/cm\xb3>> : <<>>)')
+        # Mass in grams
+        active_body.addProperty('App::PropertyString', 'Mass_in_Grams', 'Base', '')
+        active_body.setExpression('Mass_in_Grams', u'str(round(_Volume * _Density) / 1000) + str(Show_Units ? << g>> : <<>>)')
+        # Mas in pounds
+        active_body.addProperty('App::PropertyString', 'Mass_in_Pounds', 'Base', '')
+        active_body.setExpression('Mass_in_Pounds', u'str(round(_Volume * _Density * 0.0022046226) / 1000) + str(Show_Units ? << lb>> : <<>>)')
+        # Volume display
+        active_body.addProperty('App::PropertyString', 'Volume', 'Base', '')
+        active_body.setExpression('Volume', u'<<%d>> % round(.Shape.Volume) + str(Show_Units ? << mm\xb3>> : <<>>)')
+
+        print("Macro Body-Panel-Info: Finished.")
 else:
     print('Macro Body-Panel-Info: Aborted.')
 
