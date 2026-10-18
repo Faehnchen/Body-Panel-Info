@@ -46,7 +46,7 @@ infos. Run the Macro.
 **Note:** The Macro only runs if there is alread a volume in the body container!
 
 After all properties are ceated, manually set the ones with leading *’_’* to
-’Hidden’ (*right-click > Status*) and the other ones to *’Read Only’*.
+*’Hidden’* (*right-click > Status*) and the other ones to *’Read Only’*.
 
 The values most often trail one feature of the model behind. For displaying the
 definitive values, recompute the whole model or check/uncheck the unitsdisplay
