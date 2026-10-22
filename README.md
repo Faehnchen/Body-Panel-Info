@@ -20,8 +20,8 @@
 
 # About:
 
-This Macro adds some useful information about the physical properties of the
-contents in a PartDesign-Body-container to it's ’Data’-panel:
+This macro adds some useful information about the physical properties of the
+3D-volumes in a PartDesign-Body-container to it's ’Data’-panel:
 
 - Assigned Material
 - Material Density
@@ -38,17 +38,17 @@ Units stay consistent regardless how big the model grows (no unit shifting)
 # Usage:
 
 Put this script into the macro folder specific to your OS and installation method
-(investigate place: *Edit > Preferences > Python > Macro*)
+(investigate location: *Edit > Preferences > Python > Macro*)
 
 Select and activate the PartDesign Body container you want to add the property
 infos. Run the Macro.
 
-**Note:** The Macro only runs if there is alread a volume in the body container!
+**Note:** The Macro only runs if there is already a volume in the body container!
 
-After all properties are ceated, manually set the ones with leading *’_’* to
+After all properties are created, manually set the ones with leading *’_’* to
 *’Hidden’* (*right-click > Status*) and the other ones to *’Read Only’*.
 
 The values most often trail one feature of the model behind. For displaying the
-definitive values, recompute the whole model or check/uncheck the unitsdisplay
+definitive values, recompute the whole model or check/uncheck the units display
 switch.
 
