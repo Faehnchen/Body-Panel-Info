@@ -15,40 +15,40 @@
 #         ░██░░██░░░██░░░██░  ██░░░░██                                              #
 #         ░██ ░██  ░██  ░██  ░██   ░██                FreeCAD version 1.1.4         #
 #         ░██ ░██  ░██  ░██  ░██   ░██                                              #
-#         ░██ ███  ░██  ░██  ░░██████                 License: GPL 3.0 (see end)    #
+#         ░██ ███  ░██  ░██  ░░██████                 License: MIT (see end)        #
 #         ░░ ░░░   ░░   ░░    ░░░░░░                                                #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # About:
 # ¯¯¯¯¯¯
 #   This Macro adds some useful information about the physical properties of the
-#   contents in a PartDesign-Body-container to it's ’Data’-panel:
+#   3D volumes in a PartDesign-Body-container to it's ’Data’-panel:
 
 #   · Assigned Material
 #   · Material Density
 #   · Volume in mm³
 #   · Mass in g and lb
 
-#   You can view all these values in one glance in the panel. Toggle the display of
-#   units on and off with a checkbox.
+#   You can view all these values in one glance inside the panel. Toggle the display
+#   of units on and off with a checkbox.
 
 #   Units stay consistent regardless how big the model grows (no unit shifting)
 
 # Usage:
 # ¯¯¯¯¯¯
 #   Put this script into the macro folder specific to your OS and installation method
-#   (investigate place: Edit > Preferences > Python > Macro)
+#   (investigate location: Edit > Preferences > Python > Macro)
 
 #   Select and activate the PartDesign Body container you want to add the property
 #   infos. Run the Macro.
 
 #   Note: The Macro only runs if there is already a volume in the body container!
 #
-#   After all properties are ceated, manually set the ones with leading ’_’ to
+#   After all properties are created, manually set the ones with leading ’_’ to
 #   ’Hidden’ (right-click > Status) and the other ones to ’Read Only’.
 
 #   The values most often trail one feature of the model behind. For displaying the
-#   definitive values, recompute the whole model or check/uncheck the unitsdisplay
+#   definitive values, recompute the whole model or check/uncheck the units-display
 #   switch.
 
 # + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
@@ -107,44 +107,47 @@ if active_test() == 0:
         active_body.addProperty('App::PropertyFloat', '_Density', 'Base', '')
         active_body.setExpression('_Density', u'.ShapeMaterial.PropertyObjects[<<Density>>].Value * 1000000')
         # Checkbox for units display
-        active_body.addProperty('App::PropertyBool', 'Show_Units', 'Base', '')
-        FreeCAD.getDocument(active_doc.Name).getObject(active_body.Name).Show_Units = False
+        active_body.addProperty('App::PropertyBool', 'ShowUnits', 'Base', '')
+        FreeCAD.getDocument(active_doc.Name).getObject(active_body.Name).ShowUnits = False
         # Assigned Material
-        active_body.addProperty('App::PropertyString', 'Assigned_Material', 'Base', '')
-        active_body.setExpression('Assigned_Material', u'.ShapeMaterial.Name')
+        active_body.addProperty('App::PropertyString', 'AssignedMaterial', 'Base', '')
+        active_body.setExpression('AssignedMaterial', u'.ShapeMaterial.Name')
         # Density display
         active_body.addProperty('App::PropertyString', 'Density', 'Base', '')
-        active_body.setExpression('Density', u'str(_Density) + str(Show_Units ? << g/cm\xb3>> : <<>>)')
+        active_body.setExpression('Density', u'str(_Density) + str(ShowUnits ? << g/cm\xb3>> : <<>>)')
         # Mass in grams
-        active_body.addProperty('App::PropertyString', 'Mass_in_Grams', 'Base', '')
-        active_body.setExpression('Mass_in_Grams', u'str(round(_Volume * _Density) / 1000) + str(Show_Units ? << g>> : <<>>)')
+        active_body.addProperty('App::PropertyString', 'MassInGrams', 'Base', '')
+        active_body.setExpression('MassInGrams', u'str(round(_Volume * _Density) / 1000) + str(ShowUnits ? << g>> : <<>>)')
         # Mas in pounds
-        active_body.addProperty('App::PropertyString', 'Mass_in_Pounds', 'Base', '')
-        active_body.setExpression('Mass_in_Pounds', u'str(round(_Volume * _Density * 0.0022046226) / 1000) + str(Show_Units ? << lb>> : <<>>)')
+        active_body.addProperty('App::PropertyString', 'MassInPounds', 'Base', '')
+        active_body.setExpression('MassInPounds', u'str(round(_Volume * _Density * 0.0022046226) / 1000) + str(ShowUnits ? << lb>> : <<>>)')
         # Volume display
         active_body.addProperty('App::PropertyString', 'Volume', 'Base', '')
-        active_body.setExpression('Volume', u'<<%d>> % round(.Shape.Volume) + str(Show_Units ? << mm\xb3>> : <<>>)')
+        active_body.setExpression('Volume', u'<<%d>> % round(.Shape.Volume) + str(ShowUnits ? << mm\xb3>> : <<>>)')
 
         print("Macro Body-Panel-Info: Finished.")
 else:
     print('Macro Body-Panel-Info: Aborted.')
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Copyright: © Faehnchen                                                    #
-#                                                                           #
-# License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0)                 #
-#                                                                           #
-#    This program is free software: you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License as published by   #
-#    the Free Software Foundation, either version 3 of the License, or      #
-#    (at your option) any later version.                                    #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program.  If not, see https://www.gnu.org/licenses/.   #
-#                                                                           #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Copyright (c) 2026 Faehnchen, MIT License                                   #
+#                                                                             #
+# Permission is hereby granted, free of charge, to any person obtaining a     #
+# copy of this software and associated documentation files (the "Software"),  #
+# to deal in the Software without restriction, including without limitation   #
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,    #
+# and/or sell copies of the Software, and to permit persons to whom the Soft- #
+# ware is furnished to do so, subject to the following conditions:            #
+#                                                                             #
+# The above copyright notice and this permission notice shall be included in  #
+# all copies or substantial portions of the Software.                         #
+#                                                                             #
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS     #
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, #
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE #
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHERLIA-  #
+# BILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  #
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN   #
+# THE SOFTWARE.                                                               #
+#                                                                             #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
