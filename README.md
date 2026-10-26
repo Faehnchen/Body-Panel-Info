@@ -14,7 +14,7 @@
          ░██░░██░░░██░░░██░  ██░░░░██                                              
          ░██ ░██  ░██  ░██  ░██   ░██                FreeCAD version 1.1.4         
          ░██ ░██  ░██  ░██  ░██   ░██                                              
-         ░██ ███  ░██  ░██  ░░██████                 License: GPL 3.0 (see end)    
+         ░██ ███  ░██  ░██  ░░██████                 License: MIT (see end)    
          ░░ ░░░   ░░   ░░    ░░░░░░                                                
 
 
@@ -33,7 +33,7 @@ units on and off with a checkbox.
 
 Units stay consistent regardless how big the model grows (no unit shifting)
 
-<img width="1237" height="801" alt="image" src="https://github.com/user-attachments/assets/491275fb-cd5b-4210-9172-8aa9b45901a2" />
+<img width="1414" height="1010" alt="image" src="https://github.com/user-attachments/assets/24153621-566e-4542-badd-cae163757a8f" />
 
 # Usage:
 
@@ -52,3 +52,6 @@ The values most often trail one feature of the model behind. For displaying the
 definitive values, recompute the whole model or check/uncheck the units display
 switch.
 
+# License:
+   
+   MIT (see note in repository)
